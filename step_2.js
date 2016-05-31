@@ -8,11 +8,11 @@ const INTERVAL = 100
 
 const _ = require('lodash')
 const co = require('co')
-const rp = require('request-promise')
+const axios = require('axios')
 
-const db = require('./db')
+const { init, done } = require('./db')
 
-const { Com } = db.init()
+const { Com } = init()
 
 
 const limit = Number(process.argv[2]) || LIMIT
@@ -25,8 +25,17 @@ function wait(ms = interval) {
 }
 
 function fetch(comId) {
-  return rp(`http://com.nicovideo.jp/community/co${comId}`)
-  .then(r => r, err =>  NOT_FOUND)
+  return axios.get(`http://com.nicovideo.jp/community/co${comId}`, {
+    headers: {
+      'User-Agent': 'dwango',
+      'Accept-Language': 'ja'
+    }
+  }).then(res => ({
+    status: res.status,
+    html: res.data
+  }), e => ({
+    status: e.status
+  }))
 }
 
 
@@ -36,29 +45,32 @@ co(function*() {
   let success = 0
   while (count < limit) {
     count = count + 1
-    const com = yield Com.findOne({raw_html: '', not_exist: false})
-    console.log(com.com_id)
-    const html = yield fetch(com.com_id)
+    const com = yield Com.findOne({status: 0})
 
-    if (html !== NOT_FOUND) {
+    if (!com) {
+      console.log('Congrat!! All sapmle communities stat are acquired!!')
+      break
+    }
+    const res = yield fetch(com.com_id)
+
+    if (res.html) {
       success = success + 1
-      com.raw_html = html
-      com.not_exist = false
+      com.raw_html = res.html
     } else {
       com.raw_html = ''
-      com.not_exist = true
     }
+    com.status = res.status
     com.fetched_at = Date.now()
     yield com.save()
 
-    console.log(`done: ${success}(${count}) / ${limit}`)
+    console.log(`co${com.com_id} -> ${res.status} : ${success}(${count})/${limit}`)
     yield wait()
   }
 
-  db.done()
+  done()
 }).catch((err)=>{
   console.error(err)
-  db.done()
+  done()
 })
 
-process.on('SIGINT', db.done)
+process.on('SIGINT', done)

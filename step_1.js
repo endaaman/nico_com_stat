@@ -9,9 +9,9 @@ const SAMPLE_SIZE = 1000
 
 const _ = require('lodash')
 const co = require('co')
-const db = require('./db')
+const { init, done } = require('./db')
 
-const { Com } = db.init()
+const { Com } = init()
 
 function pickupRandomIds(minId, maxId, size) {
   return _.chain(_.range(minId, maxId))
@@ -22,20 +22,18 @@ function pickupRandomIds(minId, maxId, size) {
 
 
 co(function*() {
-  // const ids = pickupRandomIds(10, 100, 10)
   const ids = pickupRandomIds(MIN_ID, MAX_ID, SAMPLE_SIZE)
   for (let comId of ids) {
-    console.log(comId)
     let com = new Com({
       com_id: comId
     })
     yield com.save()
   }
 
-  db.done()
+  done()
 }).catch((err)=>{
   console.error(err)
-  db.done()
+  done()
 })
 
-process.on('SIGINT', db.done)
+process.on('SIGINT', done)

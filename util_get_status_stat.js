@@ -6,9 +6,7 @@ const { Com } = init()
 
 co(function*() {
   const docs = yield Com.find()
-  for (let doc of docs) {
-    yield Com.findByIdAndUpdate(doc.id, doc)
-  }
+  console.log(_.countBy(docs, (doc)=> doc.status))
 
   done()
 }).catch((err)=>{

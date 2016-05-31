@@ -10,12 +10,13 @@ const Com = new mongoose.Schema({
     type: String,
     default: ''
   },
-  not_exist: {
-    type: Boolean,
-    default: false
+  status: {
+    type: Number,
+    default: 0
   },
   fetched_at: {
-    type: Date
+    type: Date,
+    default: null
   }
 })
 
