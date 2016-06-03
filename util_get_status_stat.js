@@ -1,17 +1,12 @@
 const _ = require('lodash')
-const co = require('co')
-const { init, done } = require('./db')
+const { run } = require('./utils')
 
-const { Com } = init()
-
-co(function*() {
+run(function*({ Com }) {
   const docs = yield Com.find()
-  console.log(_.countBy(docs, (doc)=> doc.status))
+  const stats = _.countBy(docs, doc => doc.status)
+  console.log(`whole: ${docs.length}`)
+  for (let i in stats) {
+    console.log(`${i}: ${stats[i]}`)
+  }
 
-  done()
-}).catch((err)=>{
-  console.error(err)
-  done()
 })
-
-process.on('SIGINT', done)

@@ -5,6 +5,9 @@
     "co": "^4.6.0",
     "lodash": "^4.13.1",
     "mongoose": "^4.4.19",
-    "request-promise": "^3.0.0"
+    "prompt": "^1.0.0",
+    "q": "^1.4.1",
+    "request-promise": "^3.0.0",
+    "tunnel-ssh": "^3.2.1-beta"
   }
 }

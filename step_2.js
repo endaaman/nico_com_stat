@@ -1,28 +1,19 @@
-const LIMIT = 100
-const INTERVAL = 100
-
-/*
-  comIdに対応したコミュニティページのHTMLが未取得のものから_idの若い順に、
-  LIMIT 回、 INTERVAL msの間隔で取得し、DBに保存する
-*/
-
 const _ = require('lodash')
 const co = require('co')
 const axios = require('axios')
 
-const { init, done } = require('./db')
-
-const { Com } = init()
+const { run, wait } = require('./utils')
 
 
-const limit = Number(process.argv[2]) || LIMIT
-const interval = Number(process.argv[3]) || INTERVAL
+const limit = Number(process.argv[2])
+const interval = Number(process.argv[3])
+
+if (!limit || !interval) {
+  console.warn('please specify correct arguments')
+  process.exit(1)
+}
 
 const NOT_FOUND = Symbol()
-
-function wait(ms = interval) {
-  return new Promise((r)=> setTimeout(r, ms))
-}
 
 function fetch(comId) {
   return axios.get(`http://com.nicovideo.jp/community/co${comId}`, {
@@ -38,9 +29,7 @@ function fetch(comId) {
   }))
 }
 
-
-
-co(function*() {
+run(function*({ Com }) {
   let count = 0
   let success = 0
   while (count < limit) {
@@ -64,13 +53,6 @@ co(function*() {
     yield com.save()
 
     console.log(`co${com.com_id} -> ${res.status} : ${success}(${count})/${limit}`)
-    yield wait()
+    yield wait(interval)
   }
-
-  done()
-}).catch((err)=>{
-  console.error(err)
-  done()
 })
-
-process.on('SIGINT', done)

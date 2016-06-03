@@ -4,7 +4,10 @@ const mongoose = require('mongoose')
 const Com = new mongoose.Schema({
   com_id: {
     type: Number,
-    required: true
+    required: true,
+    index: {
+      unique: true
+    }
   },
   raw_html: {
     type: String,
