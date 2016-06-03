@@ -1,8 +1,4 @@
-const _ = require('lodash')
-const co = require('co')
-const axios = require('axios')
-
-const { run, wait } = require('./utils')
+const { run, wait, fetch } = require('./utils')
 
 
 const limit = Number(process.argv[2])
@@ -14,20 +10,6 @@ if (!limit || !interval) {
 }
 
 const NOT_FOUND = Symbol()
-
-function fetch(comId) {
-  return axios.get(`http://com.nicovideo.jp/community/co${comId}`, {
-    headers: {
-      'User-Agent': 'dwango',
-      'Accept-Language': 'ja'
-    }
-  }).then(res => ({
-    status: res.status,
-    html: res.data
-  }), e => ({
-    status: e.status
-  }))
-}
 
 run(function*({ Com }) {
   let count = 0

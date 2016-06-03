@@ -1,5 +1,14 @@
 ## 使い方など
 
+node.js version 6系を使用しています。nodebrewを使っていれば
+
+```
+$ nodebrew install-binary 6
+$ nodebrew use 6
+```
+
+で使えます。
+
 ### step_1
 
 サンプルを抽出する
@@ -15,7 +24,7 @@ node step_1 <MIN_ID> <MAX_ID> <SAMPLE_SIZE>
 
 ### step_2
 
-コミュニティページのHTMLを取得する
+コミュニティページのHTMLを取得する。
 
 ```
 node step_1 <COUNT> <INTERVAL>
@@ -60,3 +69,14 @@ module.exports = {
 ```
 
 みたいにすればOK。
+
+## TODO
+
+スクレイプする項目
+
+- レベル
+- メンバー数
+- タグ
+- 投稿動画数
+- メンバー数
+- 最後の生放送の日付

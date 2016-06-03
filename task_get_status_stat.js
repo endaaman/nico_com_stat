@@ -8,5 +8,4 @@ run(function*({ Com }) {
   for (let i in stats) {
     console.log(`${i}: ${stats[i]}`)
   }
-
 })

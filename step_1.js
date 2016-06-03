@@ -8,7 +8,6 @@ if (!min || !max || !size) {
 }
 
 const Q = require('q')
-const co = require('co')
 const prompt = require('prompt')
 
 const { run, sampleRange } = require('./utils')

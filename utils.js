@@ -1,6 +1,7 @@
 const _ = require('lodash')
 const co = require('co')
 const mongoose = require('mongoose')
+const axios = require('axios')
 
 const config = require('./config')
 const schemas = require('./schemas')
@@ -35,6 +36,21 @@ function wait(ms = 1000) {
   return new Promise((r)=> setTimeout(r, ms))
 }
 
+function fetch(comId) {
+  console.log(`http://com.nicovideo.jp/community/co${comId}`)
+  return axios.get(`http://com.nicovideo.jp/community/co${comId}`, {
+    headers: {
+      'User-Agent': 'dwango',
+      'Accept-Language': 'ja'
+    }
+  }).then(res => ({
+    status: res.status,
+    html: res.data
+  }), e => ({
+    status: e.status
+  }))
+}
+
 function sampleFromPool(pool, size) {
   return _.chain(pool)
     .sampleSize(size)
@@ -46,4 +62,4 @@ function sampleRange(minId, maxId, size) {
   return sampleFromPool(_.range(minId, maxId), size)
 }
 
-module.exports = { run, wait, sampleFromPool, sampleRange }
+module.exports = { run, wait, fetch, sampleFromPool, sampleRange }
