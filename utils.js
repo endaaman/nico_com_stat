@@ -37,7 +37,6 @@ function wait(ms = 1000) {
 }
 
 function fetch(comId) {
-  console.log(`http://com.nicovideo.jp/community/co${comId}`)
   return axios.get(`http://com.nicovideo.jp/community/co${comId}`, {
     headers: {
       'User-Agent': 'dwango',

@@ -2,13 +2,13 @@
   "private": true,
   "dependencies": {
     "axios": "^0.11.1",
+    "c3": "^0.4.11",
     "cheerio": "^0.20.0",
     "co": "^4.6.0",
     "lodash": "^4.13.1",
+    "mecab-async": "^0.1.0",
     "mongoose": "^4.4.19",
     "prompt": "^1.0.0",
-    "q": "^1.4.1",
-    "request-promise": "^3.0.0",
-    "tunnel-ssh": "^3.2.1-beta"
+    "q": "^1.4.1"
   }
 }

@@ -34,7 +34,7 @@ run(function*({ Com }) {
     com.fetched_at = Date.now()
     yield com.save()
 
-    console.log(`co${com.com_id} -> ${res.status} : ${success}(${count})/${limit}`)
+    console.log(`co${com.com_id} -> ${res.status} : ${count}(${success})/${limit}`)
     yield wait(interval)
   }
 })
