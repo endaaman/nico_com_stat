@@ -57,8 +57,8 @@ function sampleFromPool(pool, size) {
     .value()
 }
 
-function sampleRange(minId, maxId, size) {
-  return sampleFromPool(_.range(minId, maxId), size)
+function sampleRange(minId, maxId, size, excludes = []) {
+  return sampleFromPool(_.xor(_.range(minId, maxId), excludes), size)
 }
 
 module.exports = { run, wait, fetch, sampleFromPool, sampleRange }
