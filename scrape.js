@@ -15,6 +15,7 @@ function last(a){
 
 module.exports = function(html) {
   const $ = cheerio.load(html)
+  
   const elTags = $('#cbox_profile tr').eq(4).find('a')
   const tags = []
   let i = 0
@@ -29,7 +30,7 @@ module.exports = function(html) {
     owner_name: $('#community_prof_frm2 .r a strong').first().text(),
     created_at: parseDate($('#community_prof_frm2 .r strong').first().text()),
     level: Number($('#cbox_profile tr td strong').eq(0).text()),
-    member_count: Number($('#cbox_profile tr td strong').eq(3).text()),
+    member_count: Number($('#cbox_profile table tr').eq(2).find('strong').text()),
     tags: tags,
     description: $('.cnt2').text().trim()
   }
