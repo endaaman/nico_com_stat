@@ -15,8 +15,8 @@ for doc in docs:
         continue
     data.append(doc['stats']['member_count'])
 
-plt.hist(data, bins=200, range=(0, 200))
+plt.hist(data, bins=100, range=(0, 200))
 plt.xticks(np.linspace(0, 200, 21, endpoint=True))
-plt.yticks(np.linspace(0, 200, 21, endpoint=True))
+# plt.yticks(np.linspace(0, 200, 21, endpoint=True))
 plt.grid(True)
 plt.savefig('image_1.png', dpi=100)

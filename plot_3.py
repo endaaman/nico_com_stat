@@ -18,6 +18,6 @@ for doc in docs:
 
 plt.hist(data, bins=10)
 # plt.xticks(np.linspace(0, 1000, 11, endpoint=True))
-plt.yticks(np.linspace(0, 800, 41, endpoint=True))
+# plt.yticks(np.linspace(0, 800, 41, endpoint=True))
 plt.grid(True)
 plt.savefig('image_3.png', dpi=100)
